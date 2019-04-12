@@ -14,5 +14,5 @@ var CommentSchema = new Schema ({
 // Creates model from schema
 var Comments = mongoose.model("Comments", CommentSchema);
 
-// Exports Articles model
+// Exports Comments model
 module.exports = Comments;
