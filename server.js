@@ -25,16 +25,19 @@ app.use(express.json());
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 // Make public a static folder
-app.use(express.static("public"));
+app.use(express.static("./public"));
 
-// A GET route for scraping the echoJS website
+// Connect to MongoDB --- NewsScrape
+mongoose.connect("mongodb://localhost/NewsScrape", { useNewUrlParser: true });
+
+// A GET route for scraping Medium
 app.get("/scrape", function(req, res) {
-  // First, we grab the body of the html with axios
   axios.get("https://medium.com/").then(function(response) {
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
-    var $ = cheerio.load(response.data);
 
-    // Now, we grab every h2 within an article tag, and do the following:
+  // Data gets loaded into cherrio.
+  var $ = cheerio.load(response.data);
+
+    // Taking h2 within the articlea,then....
     $("article h2").each(function(i, element) {
       // Save an empty result object
       var result = {};
@@ -63,6 +66,12 @@ app.get("/scrape", function(req, res) {
     res.send("Scrape Complete");
   });
 });
+
+// Routes
+app.get('/', function (req, res) {
+    res.render('index', res); 
+});
+
 
 // Start the server
 app.listen(PORT, function() {
