@@ -72,6 +72,9 @@ app.get('/', function (req, res) {
     res.render('index', res); 
 });
 
+app.get('/saved_articles', function (req, res) {
+    res.render('savedarticles', res);
+});
 
 // Start the server
 app.listen(PORT, function() {
